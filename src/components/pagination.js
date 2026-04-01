@@ -10,8 +10,9 @@ export const initPagination = ({pages, fromRow, toRow, totalRows}, createPage) =
         // @todo: #2.1 — посчитать количество страниц, объявить переменные и константы
         const rowsPerPage = state.rowsPerPage;                        // будем часто обращаться, чтобы короче записывать
         const pageCount = Math.ceil(data.length / rowsPerPage);        // число страниц округляем в большую сторону
-        let page = state.page;                                        // страница переменной, потому что она может меняться при обработке действий позже
-        
+        let page = state.page;  
+        page = Math.min(page, pageCount);                                      // страница переменной, потому что она может меняться при обработке действий позже
+
         // @todo: #2.6 — обработать действия
         if (action) switch(action.name) {
             case 'prev': page = Math.max(1, page - 1); 
@@ -26,7 +27,6 @@ export const initPagination = ({pages, fromRow, toRow, totalRows}, createPage) =
             case 'last': page = pageCount; 
             break;                        // переход на последнюю страницу
         }
-        state.page = page; 
         // @todo: #2.4 — получить список видимых страниц и вывести их
         const visiblePages = getPages(page, pageCount, 5);                // Получим массив страниц, которые нужно показать, выводим только 5 страниц
         

@@ -20,18 +20,18 @@ export function initFiltering(elements, indexes) {
           }),
       );
     });
-
+    
   return (data, state, action) => {
     // @todo: #4.2 — обработать очистку поля
+
     if (action?.name === "clear") {
       const field = action.dataset.field; // получаем имя поля
       const parent = action.parentElement; // родительский контейнер кнопки
-      const input = parent.querySelector("input"); // ищем input внутри родителя
-
+      const input = parent.querySelector(`input[data-field="${field}"]`); // ищем input внутри родителя
       if (input) {
-        input.value = ""; // сброс в UI
+        input.value = ''; // сброс в UI
       }
-
+      
       if (state.filters) {
         // сброс в state
         delete state.filters[field];

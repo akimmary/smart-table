@@ -1,28 +1,21 @@
 import {rules, createComparison} from "../lib/compare.js";
 
 export function initSearching(searchField) {
-    const comparator = createComparison(
-        ['skipNonExistentSourceFields', 'skipEmptyTargetValues'],
-        [
-            rules.searchMultipleFields(
-                searchField,
-                ['date', 'customer', 'seller'],
-                false
-            )
-        ]
-    );
+    const comparator = createComparison({
+        field: searchField,
+        skipEmptyTargetValues: true
+    });
 
+    // возвращаем функцию для render/apply
     return (data, state) => {
-        const value = state[searchField];
-        if (!value) return data;
+        const term = state[searchField] || '';
+        if (!term) return data; // если поиск пустой, ничего не фильтруем
 
-        const query = String(value).toLowerCase();
-
-        return data.filter(item => {
-            // ищем подстроку в любом из полей
-            return ['date', 'customer', 'seller'].some(field => {
-                return String(item[field] || '').toLowerCase().includes(query);
-            });
-        });
+        // используем правило searchMultipleFields для фильтрации
+        return data.filter(row =>
+            ['date', 'customer', 'seller'].some(
+                key => String(row[key] || '').toLowerCase().includes(term.toLowerCase())
+            )
+        );
     };
 }

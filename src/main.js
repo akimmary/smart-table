@@ -37,15 +37,17 @@ function collectState() {
  * Перерисовка состояния таблицы при любых изменениях
  * @param {HTMLButtonElement?} action
  */
+debugger;
 function render(action) {
     let state = collectState(); // состояние полей из таблицы
     let result = [...data]; // копируем для последующего изменения
     // @todo: использование
-    result = applySearching(result, state);
+
+    result = applySearching(result, state, action);
     result = applyFiltering(result, state, action);
     result = applySorting(result, state, action);
     result = applyPagination(result, state, action);
-    
+
     sampleTable.render(result)
 }
 
@@ -64,8 +66,8 @@ const applyFiltering = initFiltering(sampleTable.filter.elements, {    // пер
 });
 
 const applySorting = initSorting([        // Нам нужно передать сюда массив элементов, которые вызывают сортировку, чтобы изменять их визуальное представление
-    sampleTable.header.container.querySelector('[data-name="sortByDate"]'),
-    sampleTable.header.container.querySelector('[data-name="sortByTotal"]'),
+    sampleTable.header.elements.sortByDate,
+    sampleTable.header.elements.sortByTotal,
 ]);
 
 const applyPagination = initPagination(

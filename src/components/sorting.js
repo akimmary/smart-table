@@ -11,17 +11,12 @@ export function initSorting(columns) {
             field = action.dataset.field;                            // Информация о сортируемом поле есть также в кнопке
             order = action.dataset.value;                            // Направление заберём прямо из датасета для точности
             // @todo: #3.2 — сбросить сортировки остальных колонок
-            columns.forEach(column => {
-                if (column !== action && column.dataset) {
-                    column.dataset.value = 'none';
-                }
-            });
-        } else {
             columns.forEach(column => {                                    // Перебираем элементы (в columns у нас массив кнопок)
-                if (column && column !== action && column.dataset) {     // Если это не та кнопка, что нажал пользователь
-                    column.dataset.value = 'none';                    // тогда сбрасываем её в начальное состояние
+                if (column.dataset.field !== action.dataset.field) {    // Если это не та кнопка, что нажал пользователь
+                    column.dataset.value = 'none';                        // тогда сбрасываем её в начальное состояние
                 }
-            });
+            });         
+        } else {
             // @todo: #3.3 — получить выбранный режим сортировки
 
             columns.forEach(column => {                        // Перебираем все наши кнопки сортировки
