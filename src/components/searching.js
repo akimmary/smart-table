@@ -8,13 +8,13 @@ export function initSearching(searchField) {
 
     // возвращаем функцию для render/apply
     return (data, state) => {
-        const term = state[searchField] || '';
+        const term = (state[searchField] || '').trim();
         if (!term) return data; // если поиск пустой, ничего не фильтруем
 
         // используем правило searchMultipleFields для фильтрации
         return data.filter(row =>
             ['date', 'customer', 'seller'].some(
-                key => String(row[key] || '').toLowerCase().includes(term.toLowerCase())
+                key => String(row[key] || '').trim().toLowerCase().includes(term.trim().toLowerCase())
             )
         );
     };
