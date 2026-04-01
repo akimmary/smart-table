@@ -14,11 +14,15 @@ export function initSearching(searchField) {
 
     return (data, state) => {
         const value = state[searchField];
-
         if (!value) return data;
 
-        return data.filter(item =>
-            comparator(item, { [searchField]: value })
-        );
+        const query = String(value).toLowerCase();
+
+        return data.filter(item => {
+            // ищем подстроку в любом из полей
+            return ['date', 'customer', 'seller'].some(field => {
+                return String(item[field] || '').toLowerCase().includes(query);
+            });
+        });
     };
 }

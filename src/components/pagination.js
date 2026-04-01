@@ -26,7 +26,7 @@ export const initPagination = ({pages, fromRow, toRow, totalRows}, createPage) =
             case 'last': page = pageCount; 
             break;                        // переход на последнюю страницу
         }
-
+        state.page = page; 
         // @todo: #2.4 — получить список видимых страниц и вывести их
         const visiblePages = getPages(page, pageCount, 5);                // Получим массив страниц, которые нужно показать, выводим только 5 страниц
         

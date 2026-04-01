@@ -34,10 +34,10 @@ export function initFiltering(elements, indexes) {
 
       if (state.filters) {
         // сброс в state
-        state.filters[field] = "";
+        delete state.filters[field];
       }
     }
-    
+
     // @todo: #4.5 — отфильтровать данные используя компаратор
     return data.filter((row) => compare(row, state));
   };
