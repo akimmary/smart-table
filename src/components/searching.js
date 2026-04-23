@@ -1,5 +1,3 @@
-
-
 export function initSearching(searchField) {
 
     return (query, state, action) => { // result заменили на query

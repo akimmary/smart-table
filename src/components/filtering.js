@@ -1,8 +1,4 @@
-
-
-// @todo: #4.3 — настроить компаратор
-
-export function initFiltering(elements) {
+export function initFiltering(filterElements, searchElements) {
     const updateIndexes = (elements, indexes) => {
         Object.keys(indexes).forEach((elementName) => {
             elements[elementName].append(...Object.values(indexes[elementName]).map(name => {
@@ -24,27 +20,27 @@ export function initFiltering(elements) {
             if (input) {
                 input.value = ''; // сброс в UI
             }
-
-            if (state.filters) {
-                // сброс в state
-                delete state.filters[field];
-            }
         }
         
         const filter = {};
-        Object.keys(elements).forEach(key => {
-            if (elements[key]) {
-                if (['INPUT', 'SELECT'].includes(elements[key].tagName) && elements[key].value) { // ищем поля ввода в фильтре с непустыми данными
-                    filter[`filter[${elements[key].name}]`] = elements[key].value; // чтобы сформировать в query вложенный объект фильтра
-                }
+        Object.keys(filterElements).forEach(key => {
+            const el = filterElements[key];
+
+            if (el && ['INPUT', 'SELECT'].includes(el.tagName) && el.value) {
+                filter[`filter[${el.name}]`] = el.value;
             }
-        })
+        });
+
+        const globalSearch = searchElements?.search;
+            if (globalSearch && globalSearch.value) {
+            filter['search'] = globalSearch.value;
+        }
 
         return Object.keys(filter).length ? Object.assign({}, query, filter) : query; // если в фильтре что-то добавилось, применим к запросу
     }
 
     return {
         updateIndexes,
-        applyFiltering
+        applyFiltering,
     }
 } 

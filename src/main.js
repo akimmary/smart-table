@@ -1,8 +1,6 @@
 import './fonts/ys-display/fonts.css'
 import './style.css'
 
-import { data as sourceData } from "./data/dataset_1.js";
-
 import { initData } from "./data.js";
 import { processFormData } from "./lib/utils.js";
 
@@ -14,8 +12,9 @@ import { initFiltering } from "./components/filtering.js"
 import { initSorting } from "./components/sorting.js"
 import { initPagination } from "./components/pagination.js"
 
+
 // Исходные данные используемые в render()
-const API = initData(sourceData);
+const API = initData();
 
 /**
  * Сбор и обработка полей из таблицы
@@ -50,8 +49,10 @@ async function render(action) {
 
     const { total, items } = await API.getRecords(query);
     updatePagination(total, query); // перерисовываем пагинатор
-    console.log(total, items)
+
     sampleTable.render(items)
+
+
 }
 
 const sampleTable = initTable({
@@ -64,8 +65,7 @@ const sampleTable = initTable({
 // @todo: инициализация
 const applySearching = initSearching('searchBySeller');
 
-const {applyFiltering, updateIndexes} = initFiltering(sampleTable.filter.elements);    // передаём элементы фильтра
-                                   // для элемента с именем searchBySeller устанавливаем массив продавцов
+const { applyFiltering, updateIndexes } = initFiltering(sampleTable.filter.elements, sampleTable.search.elements);    // передаём элементы фильтра
 
 
 const applySorting = initSorting([        // Нам нужно передать сюда массив элементов, которые вызывают сортировку, чтобы изменять их визуальное представление
