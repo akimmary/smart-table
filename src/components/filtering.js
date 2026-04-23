@@ -16,7 +16,7 @@ export function initFiltering(filterElements, searchElements) {
         if (action?.name === "clear") {
             const field = action.dataset.field; // получаем имя поля
             const parent = action.parentElement; // родительский контейнер кнопки
-            const input = parent.querySelector(`input[data-field="${field}"]`); // ищем input внутри родителя
+            const input = parent.querySelector(`input[name="${field}"]`); // ищем input внутри родителя
             if (input) {
                 input.value = ''; // сброс в UI
             }
